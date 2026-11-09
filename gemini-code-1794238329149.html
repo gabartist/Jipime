@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jipime - ACSEE Form Six Revision (Tanzania 2026)</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 px-4 py-3 flex justify-between items-center shadow-md">
+        <div class="flex items-center space-x-2 cursor-pointer" onclick="resetApp()">
+            <div class="bg-indigo-600 text-white font-bold px-2.5 py-1 rounded-lg text-lg">J</div>
+            <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">Jipime</span>
+            <span class="text-xs bg-indigo-950 text-indigo-300 border border-indigo-800 px-2 py-0.5 rounded-full font-medium">Form Six 2026</span>
+        </div>
+        <div id="user-stats" class="text-xs text-slate-400 flex items-center space-x-3">
+            <span><i class="fa-solid fa-trophy text-amber-400 mr-1"></i> <span id="stat-attempts">0</span> Attempts</span>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-2xl w-full mx-auto p-4 pb-24">
+
+        <!-- VIEW 1: Subject Selection -->
+        <div id="view-subjects" class="space-y-6">
+            <div class="bg-gradient-to-r from-indigo-900/40 to-slate-900 border border-indigo-500/30 rounded-2xl p-6 shadow-xl">
+                <h1 class="text-2xl font-bold text-white mb-2">Karibu Jipime 🇹🇿</h1>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Master Advanced Level NECTA exams for the **2026 syllabus**. Choose a subject below to generate a randomized paper with strict concept marking.
+                </p>
+            </div>
+
+            <h2 class="text-sm font-semibold uppercase tracking-wider text-slate-400 px-1">Select Subject</h2>
+            
+            <div class="grid grid-cols-1 gap-4">
+                <!-- Physics -->
+                <button onclick="selectSubject('Physics')" class="group bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-indigo-500 transition-all duration-300 rounded-2xl p-5 text-left flex items-center justify-between shadow-lg">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-atom"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Physics ACSEE</h3>
+                            <p class="text-xs text-slate-400">Mechanics, Fields, Waves, Electronics • 2026 Syllabus</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-slate-600 group-hover:text-indigo-400 transition-colors"></i>
+                </button>
+
+                <!-- Mathematics -->
+                <button onclick="selectSubject('Mathematics')" class="group bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-cyan-500 transition-all duration-300 rounded-2xl p-5 text-left flex items-center justify-between shadow-lg">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-square-root-variable"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Advanced Mathematics</h3>
+                            <p class="text-xs text-slate-400">Calculus, Algebra, Probability & Statistics • 2026 Syllabus</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-slate-600 group-hover:text-cyan-400 transition-colors"></i>
+                </button>
+
+                <!-- Computer Science -->
+                <button onclick="selectSubject('Computer Science')" class="group bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-emerald-500 transition-all duration-300 rounded-2xl p-5 text-left flex items-center justify-between shadow-lg">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-white">Computer Science</h3>
+                            <p class="text-xs text-slate-400">Algorithms, Database, Networking, OOP • 2026 Syllabus</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-slate-600 group-hover:text-emerald-400 transition-colors"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- VIEW 2: Mode Selection -->
+        <div id="view-mode" class="hidden space-y-6">
+            <button onclick="goBackToSubjects()" class="text-xs text-indigo-400 hover:underline flex items-center space-x-1">
+                <i class="fa-solid fa-arrow-left"></i> <span>Change Subject</span>
+            </button>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <span id="selected-subject-badge" class="text-xs bg-indigo-900/60 text-indigo-300 border border-indigo-700/50 px-2.5 py-1 rounded-full font-semibold uppercase tracking-wider">Subject</span>
+                <h2 id="paper-title" class="text-xl font-bold text-white mt-3">NECTA Past Paper (2026 Standard)</h2>
+                <p class="text-xs text-slate-400 mt-1">Select how you want to attempt this examination session.</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <button onclick="startExam('full')" class="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white rounded-2xl p-5 text-left shadow-lg transition-all flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-lg">Attempt Full Paper</h3>
+                        <p class="text-xs text-indigo-200 mt-0.5">Complete examination paper simulation (All structured questions)</p>
+                    </div>
+                    <i class="fa-solid fa-file-lines text-2xl text-indigo-200"></i>
+                </button>
+
+                <button onclick="startExam('part')" class="bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-slate-700 text-white rounded-2xl p-5 text-left shadow-lg transition-all flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-lg">Quick Part (3 Questions)</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Randomly picks 3 questions for a faster targeted practice session</p>
+                    </div>
+                    <i class="fa-solid fa-bolt text-2xl text-amber-400"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- VIEW 3: Examination / All Questions Listed Together -->
+        <div id="view-exam" class="hidden space-y-6">
+            <div class="flex justify-between items-center bg-slate-900/85 backdrop-blur border border-slate-800 px-4 py-3 rounded-xl sticky top-16 z-40 shadow">
+                <div class="text-xs font-semibold text-slate-300" id="exam-session-title">Attempting Examination Paper</div>
+                <div class="text-xs font-mono bg-indigo-950 text-indigo-300 px-2.5 py-1 rounded border border-indigo-800" id="exam-timer">00:00</div>
+            </div>
+
+            <div id="all-questions-container" class="space-y-6">
+                <!-- Injected Questions -->
+            </div>
+
+            <div class="flex justify-end pt-4 pb-12">
+                <button onclick="submitEntireExam()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-8 py-3.5 rounded-xl shadow-xl text-sm transition-all flex items-center space-x-2">
+                    <span>Submit & Finish Paper</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- VIEW 4: Results & Analytics Review -->
+        <div id="view-results" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl text-center space-y-3">
+                <div class="w-16 h-16 bg-indigo-500/10 text-indigo-400 rounded-full flex items-center justify-center text-3xl mx-auto border border-indigo-500/20">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-white">Examination Marked</h2>
+                <p class="text-xs text-slate-400" id="results-subject-info">Physics ACSEE • Strict Concept Evaluation</p>
+                
+                <div class="py-4">
+                    <div class="text-4xl font-black text-indigo-400" id="total-score-display">0 / 0</div>
+                    <div class="text-xs uppercase tracking-wider text-slate-500 mt-1 font-semibold">Total Marks Obtained</div>
+                </div>
+
+                <div id="improvement-badge" class="bg-emerald-950 text-emerald-300 border border-emerald-800 p-3 rounded-xl text-xs font-medium">
+                    <i class="fa-solid fa-chart-line mr-1"></i> Analyzing performance...
+                </div>
+            </div>
+
+            <div class="space-y-4" id="detailed-feedback-list">
+                <!-- Detailed breakdown injected here -->
+            </div>
+
+            <button onclick="resetApp()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg text-sm">
+                <i class="fa-solid fa-rotate-right mr-2"></i> Take Another Paper
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center text-xs text-slate-600 border-t border-slate-900 mt-auto">
+        Jipime ACSEE 2026 • Tanzanian National Curriculum Engine
+    </footer>
+
+    <script>
+        const db = {
+            "Physics": [
+                {
+                    id: "phy_1",
+                    title: "Advanced Physics Paper 1 (Mechanics & Waves)",
+                    questions: [
+                        {
+                            num: 1,
+                            text: "A satellite of mass m is orbiting the Earth of mass M at a radius r. Derive the expression for its orbital velocity and total energy, hence explain why total energy is negative.",
+                            maxMarks: 5,
+                            keywords: ["gm", "centripetal", "v =", "velocity", "potential", "kinetic", "energy", "negative", "bound", "orbit"],
+                            rubric: [
+                                { point: "Equating gravitational force to centripetal force", marks: 1.5, keys: ["centripetal", "gravitational", "gm"] },
+                                { point: "Correct derivation of orbital velocity formula", marks: 1, keys: ["velocity", "v ="] },
+                                { point: "Kinetic and Potential energy expressions", marks: 1, keys: ["potential", "kinetic", "energy"] },
+                                { point: "Correct summation giving negative total energy explanation", marks: 1.5, keys: ["negative", "bound", "orbit"] }
+                            ],
+                            modelAnswer: "Using Newton's law of gravitation and centripetal force: GMm/r^2 = mv^2/r -> v = sqrt(GM/r). Potential energy U = -GMm/r, Kinetic energy K = 1/2 mv^2 = GMm/2r. Total energy E = -GMm/2r (negative signifies bound orbit)."
+                        },
+                        {
+                            num: 2,
+                            text: "State the laws of electromagnetic induction and calculate the induced emf in a coil of 500 turns and area 0.04 m² when magnetic flux density changes from 0.2 T to 0.8 T in 0.1 seconds.",
+                            maxMarks: 4,
+                            keywords: ["faraday", "lenz", "emf", "-n", "0.024", "-120", "volts"],
+                            rubric: [
+                                { point: "Accurate statement of Faraday's and Lenz's laws", marks: 1, keys: ["faraday", "lenz", "induction"] },
+                                { point: "Correct formula selection (emf = -N * d(Phi)/dt)", marks: 1, keys: ["emf", "-n", "rate"] },
+                                { point: "Accurate substitution (Delta Phi = (0.8 - 0.2) * 0.04)", marks: 1, keys: ["0.024", "flux"] },
+                                { point: "Correct final calculation and SI units (-120 V)", marks: 1, keys: ["-120", "v", "volt"] }
+                            ],
+                            modelAnswer: "Faraday's law states induced emf is proportional to rate of change of flux linkage. Calculation: dPhi = 0.024 Wb. emf = -500 * (0.024 / 0.1) = -120 V."
+                        },
+                        {
+                            num: 3,
+                            text: "Explain the phenomenon of interference in thin films and derive the condition for constructive interference in reflected light.",
+                            maxMarks: 6,
+                            keywords: ["amplitude", "phase", "pi", "path difference", "2mut", "constructive", "reflection"],
+                            rubric: [
+                                { point: "Explanation of division of amplitude in thin films", marks: 1.5, keys: ["amplitude", "division", "film"] },
+                                { point: "Inclusion of phase change of 180° upon reflection from denser medium", marks: 1.5, keys: ["phase", "180", "pi", "reflection"] },
+                                { point: "Optical path difference derivation (2mu t cos(r))", marks: 2, keys: ["2mut", "path difference", "cos"] },
+                                { point: "Constructive condition equation (2mu t cos(r) = (n + 1/2)lambda)", marks: 1, keys: ["constructive", "lambda", "1/2"] }
+                            ],
+                            modelAnswer: "Light splits into reflected rays. Ray reflecting from denser medium undergoes pi phase shift. Optical path difference delta = 2mut cos(r). Constructive condition: 2mut cos(r) = (n + 1/2)lambda."
+                        }
+                    ]
+                }
+            ],
+            "Mathematics": [
+                {
+                    id: "math_1",
+                    title: "Advanced Mathematics Paper 1 (Calculus & Algebra)",
+                    questions: [
+                        {
+                            num: 1,
+                            text: "Evaluate the integral: int x^2 * e^(3x) dx using integration by parts.",
+                            maxMarks: 5,
+                            keywords: ["parts", "u dv", "uv", "e^(3x)", "+ c", "constant"],
+                            rubric: [
+                                { point: "Correct application of integration by parts formula", marks: 1, keys: ["parts", "uv", "vdpu"] },
+                                { point: "First application step (let u = x^2, dv = e^(3x)dx)", marks: 1.5, keys: ["u =", "dv ="] },
+                                { point: "Second integration by parts for remaining integral", marks: 1.5, keys: ["second", "integral"] },
+                                { point: "Final simplified algebraic expression + constant C", marks: 1, keys: ["+ c", "constant"] }
+                            ],
+                            modelAnswer: "Using int u dv = uv - int v du twice. Result: (x^2/3 - 2x/9 + 2/27) * e^(3x) + C."
+                        },
+                        {
+                            num: 2,
+                            text: "Find the inverse of the matrix A = [[2, 1, 3], [0, 1, 4], [5, 2, 1]] and use it to solve a linear system.",
+                            maxMarks: 6,
+                            keywords: ["determinant", "cofactor", "transpose", "adjugate", "-9"],
+                            rubric: [
+                                { point: "Correct determinant calculation (det != 0)", marks: 1.5, keys: ["determinant", "det", "-9"] },
+                                { point: "Matrix of cofactors correctly constructed", marks: 2, keys: ["cofactor"] },
+                                { point: "Transposition to find adjugate matrix", marks: 1.5, keys: ["transpose", "adjugate"] },
+                                { point: "Final inverse matrix A^(-1) = adj(A) / det(A)", marks: 1, keys: ["inverse", "adj"] }
+                            ],
+                            modelAnswer: "Determinant = -9. Compute matrix of cofactors, transpose for adjugate, and divide by determinant."
+                        }
+                    ]
+                }
+            ],
+            "Computer Science": [
+                {
+                    id: "cs_1",
+                    title: "Computer Science Paper 1 (Systems, Algorithms & OOP)",
+                    questions: [
+                        {
+                            num: 1,
+                            text: "Explain the four core principles of Object-Oriented Programming (OOP) and give a practical Python or Java code snippet illustrating polymorphism.",
+                            maxMarks: 6,
+                            keywords: ["encapsulation", "inheritance", "polymorphism", "abstraction", "class", "def", "override"],
+                            rubric: [
+                                { point: "Clear definition of Encapsulation, Inheritance, Polymorphism, and Abstraction", marks: 2, keys: ["encapsulation", "inheritance", "polymorphism", "abstraction"] },
+                                { point: "Correct syntax structure in Python/Java for polymorphism", marks: 2, keys: ["class", "def", "self", "extends"] },
+                                { point: "Explanation of method overriding / dynamic dispatch", marks: 2, keys: ["override", "dynamic", "method"] }
+                            ],
+                            modelAnswer: "Encapsulation bundles data/methods; Inheritance enables code reuse; Polymorphism allows objects to take multiple forms; Abstraction hides implementation details."
+                        },
+                        {
+                            num: 2,
+                            text: "Compare and contrast TCP and UDP protocols in computer networking, detailing 4 key differences and use cases for each.",
+                            maxMarks: 5,
+                            keywords: ["connection-oriented", "connectionless", "reliable", "unreliable", "streaming", "http"],
+                            rubric: [
+                                { point: "Connection-oriented (TCP) vs Connectionless (UDP)", marks: 1.5, keys: ["connection-oriented", "connectionless"] },
+                                { point: "Reliability and error-checking mechanisms", marks: 1.5, keys: ["reliable", "error", "acknowledgement"] },
+                                { point: "Speed and ordering of packet delivery", marks: 1, keys: ["speed", "order", "packet"] },
+                                { point: "Accurate real-world use case examples (HTTP vs VoIP)", marks: 1, keys: ["http", "streaming", "voip", "gaming"] }
+                            ],
+                            modelAnswer: "TCP is reliable, connection-oriented, ordered (used for web/email). UDP is fast, connectionless, unacknowledged (used for live streaming, gaming)."
+                        }
+                    ]
+                }
+            ]
+        };
+
+        let currentState = { subject: null, mode: null, activeQuestions: [] };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateStatsUI();
+        });
+
+        function updateStatsUI() {
+            let history = JSON.parse(localStorage.getItem('jipime_history') || '[]');
+            document.getElementById('stat-attempts').innerText = history.length;
+        }
+
+        function selectSubject(subjectName) {
+            currentState.subject = subjectName;
+            document.getElementById('selected-subject-badge').innerText = subjectName + " 2026";
+            document.getElementById('paper-title').innerText = db[subjectName][0].title;
+            
+            document.getElementById('view-subjects').classList.add('hidden');
+            document.getElementById('view-mode').classList.remove('hidden');
+        }
+
+        function goBackToSubjects() {
+            document.getElementById('view-mode').classList.add('hidden');
+            document.getElementById('view-subjects').classList.remove('hidden');
+        }
+
+        function startExam(mode) {
+            currentState.mode = mode;
+            let fullPaper = db[currentState.subject][0].questions;
+            
+            if (mode === 'part') {
+                let shuffled = [...fullPaper].sort(() => 0.5 - Math.random());
+                currentState.activeQuestions = shuffled.slice(0, Math.min(3, shuffled.length));
+            } else {
+                currentState.activeQuestions = [...fullPaper];
+            }
+
+            document.getElementById('view-mode').classList.add('hidden');
+            document.getElementById('view-exam').classList.remove('hidden');
+            document.getElementById('exam-session-title').innerText = `${currentState.subject} • ${mode === 'full' ? 'Full Paper' : 'Practice Session'}`;
+
+            renderAllQuestions();
+        }
+
+        let sessionImages = {};
+
+        function renderAllQuestions() {
+            sessionImages = {};
+            let container = document.getElementById('all-questions-container');
+            container.innerHTML = '';
+
+            currentState.activeQuestions.forEach((q, idx) => {
+                container.innerHTML += `
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-indigo-950 text-indigo-300 px-2.5 py-1 rounded-full font-semibold border border-indigo-800">Question ${idx + 1} (Q${q.num})</span>
+                            <span class="text-xs text-slate-400 font-medium">${q.maxMarks} Marks</span>
+                        </div>
+
+                        <h3 class="text-base font-semibold text-white leading-relaxed">${q.text}</h3>
+
+                        <div class="space-y-3 pt-2">
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">Your Working / Solution:</label>
+                            
+                            <textarea id="ans-text-${idx}" rows="5" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 placeholder-slate-600 transition-colors" placeholder="Type your full solution, derivations, or explanation here..."></textarea>
+
+                            <div class="border border-dashed border-slate-800 rounded-xl p-4 text-center space-y-3 bg-slate-950/50">
+                                <div class="text-xs text-slate-400">Alternatively, take a live photo of your handwritten work:</div>
+                                
+                                <label class="inline-flex items-center justify-center space-x-2 bg-slate-800 hover:bg-slate-700 text-indigo-300 text-xs font-semibold px-4 py-2.5 rounded-xl cursor-pointer border border-slate-700 transition-all shadow">
+                                    <i class="fa-solid fa-camera"></i>
+                                    <span>Capture Live Photo</span>
+                                    <input type="file" accept="image/*" capture="environment" class="hidden" onchange="handleSessionImage(event, ${idx})">
+                                </label>
+
+                                <div id="preview-box-${idx}" class="hidden mt-2 space-y-2">
+                                    <img id="preview-img-${idx}" class="max-h-40 mx-auto rounded-lg border border-slate-700 object-contain">
+                                    <div class="text-xs text-emerald-400 font-medium"><i class="fa-solid fa-circle-check mr-1"></i> Handwritten photo attached successfully!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function handleSessionImage(event, idx) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    sessionImages[idx] = e.target.result;
+                    document.getElementById(`preview-img-${idx}`).src = sessionImages[idx];
+                    document.getElementById(`preview-box-${idx}`).classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function submitEntireExam() {
+            let answersArr = [];
+            let allEmpty = true;
+
+            currentState.activeQuestions.forEach((q, idx) => {
+                let textVal = document.getElementById(`ans-text-${idx}`).value.trim();
+                let imgVal = sessionImages[idx] || null;
+
+                if (textVal || imgVal) {
+                    allEmpty = false;
+                }
+
+                answersArr.push({
+                    question: q.text,
+                    userText: textVal.toLowerCase(),
+                    hasImage: !!imgVal,
+                    rubric: q.rubric,
+                    maxMarks: q.maxMarks,
+                    modelAnswer: q.modelAnswer
+                });
+            });
+
+            if (allEmpty) {
+                alert("Please attempt at least one question before submitting the paper.");
+                return;
+            }
+
+            // Strict Concept & Keyword Grading Engine
+            let evaluatedAnswers = [];
+            let totalEarned = 0;
+            let totalMax = 0;
+
+            answersArr.forEach(ans => {
+                let earnedMarks = 0;
+                let breakdownResults = [];
+
+                ans.rubric.forEach(r => {
+                    // Check how many keywords for this rubric point match the user text
+                    let matchedKeysCount = r.keys.filter(k => ans.userText.includes(k)).length;
+                    let matchRatio = matchedKeysCount / r.keys.length;
+
+                    let awardedForPoint = 0;
+                    if (ans.hasImage && ans.userText.length < 5) {
+                        // If they attached an image but didn't type much, award a baseline partial credit assuming handwritten work
+                        awardedForPoint = Math.round((r.marks * 0.7) * 10) / 10;
+                    } else if (matchRatio >= 0.5) {
+                        // Full marks for this rubric point if most keywords match
+                        awardedForPoint = r.marks;
+                    } else if (matchRatio > 0) {
+                        // Partial marks
+                        awardedForPoint = Math.round((r.marks * 0.5) * 10) / 10;
+                    } else {
+                        // 0 marks if they wrote "I don't know", irrelevant text, or left it blank
+                        awardedForPoint = 0;
+                    }
+
+                    earnedMarks += awardedForPoint;
+                    breakdownResults.push({
+                        point: r.point,
+                        earned: awardedForPoint,
+                        max: r.marks,
+                        passed: awardedForPoint > 0
+                    });
+                });
+
+                earnedMarks = Math.min(ans.maxMarks, Math.round(earnedMarks * 10) / 10);
+                totalEarned += earnedMarks;
+                totalMax += ans.maxMarks;
+
+                evaluatedAnswers.push({
+                    question: ans.question,
+                    breakdown: breakdownResults,
+                    earned: earnedMarks,
+                    max: ans.maxMarks,
+                    modelAnswer: ans.modelAnswer
+                });
+            });
+
+            showResults(totalEarned, totalMax, evaluatedAnswers);
+        }
+
+        function showResults(totalEarned, totalMax, evaluatedAnswers) {
+            document.getElementById('view-exam').classList.add('hidden');
+            document.getElementById('view-results').classList.remove('hidden');
+
+            document.getElementById('total-score-display').innerText = `${totalEarned} / ${totalMax}`;
+            document.getElementById('results-subject-info').innerText = `${currentState.subject} ACSEE • Strict Concept Evaluation`;
+
+            let history = JSON.parse(localStorage.getItem('jipime_history') || '[]');
+            let prevBest = history.length > 0 ? Math.max(...history.map(h => h.percentage)) : null;
+            let currentPercentage = Math.round((totalEarned / totalMax) * 100);
+            
+            history.push({
+                date: new Date().toLocaleDateString(),
+                subject: currentState.subject,
+                percentage: currentPercentage,
+                earned: totalEarned,
+                max: totalMax
+            });
+            localStorage.setItem('jipime_history', JSON.stringify(history));
+
+            let improvementDiv = document.getElementById('improvement-badge');
+            if (prevBest !== null) {
+                if (currentPercentage >= prevBest) {
+                    improvementDiv.className = "bg-emerald-950 text-emerald-300 border border-emerald-800 p-3 rounded-xl text-xs font-medium";
+                    improvementDiv.innerHTML = `<i class="fa-solid fa-chart-line mr-1"></i> Great job! You scored ${currentPercentage}% (Previous best: ${prevBest}%).`;
+                } else {
+                    improvementDiv.className = "bg-amber-950 text-amber-300 border border-amber-800 p-3 rounded-xl text-xs font-medium";
+                    improvementDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> Score: ${currentPercentage}%. Check the NECTA model answers below to refine your weak points.`;
+                }
+            } else {
+                improvementDiv.innerHTML = `<i class="fa-solid fa-star mr-1"></i> First startup test completed! Baseline recorded at ${currentPercentage}%.`;
+            }
+
+            let feedbackContainer = document.getElementById('detailed-feedback-list');
+            feedbackContainer.innerHTML = '<h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 px-1">Detailed Rubric Marking Breakdown</h3>';
+
+            evaluatedAnswers.forEach((ans, idx) => {
+                feedbackContainer.innerHTML += `
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3 shadow-lg">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-indigo-950 text-indigo-300 px-2 py-0.5 rounded border border-indigo-800 font-semibold">Question ${idx + 1}</span>
+                            <span class="text-xs font-bold text-indigo-400">${ans.earned} / ${ans.max} Marks</span>
+                        </div>
+                        <p class="text-xs text-slate-300 font-medium">${ans.question}</p>
+                        
+                        <div class="bg-slate-950 rounded-xl p-3 border border-slate-800 text-xs space-y-1.5">
+                            <div class="text-slate-500 font-semibold uppercase tracking-wider text-[10px]">Marking Scheme Rubric Breakdown:</div>
+                            ${ans.breakdown.map(b => `
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-400"><i class="fa-solid ${b.earned > 0 ? 'fa-check text-emerald-400' : 'fa-xmark text-rose-400'} mr-1"></i> ${b.point}</span>
+                                    <span class="font-mono text-slate-300">${b.earned} / ${b.max}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <div class="text-xs bg-slate-950/60 p-3 rounded-xl border border-slate-800 text-slate-400">
+                            <span class="text-indigo-400 font-semibold">Model Solution / Guidance:</span> ${ans.modelAnswer}
+                        </div>
+                    </div>
+                `;
+            });
+
+            updateStatsUI();
+        }
+
+        function resetApp() {
+            currentState = { subject: null, mode: null, activeQuestions: [] };
+            sessionImages = {};
+            document.getElementById('view-results').classList.add('hidden');
+            document.getElementById('view-exam').classList.add('hidden');
+            document.getElementById('view-mode').classList.add('hidden');
+            document.getElementById('view-subjects').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
